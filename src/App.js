@@ -15,7 +15,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Recipe App V2
+          Recipe App V2 Started
         </a>
       </header>
     </div>
