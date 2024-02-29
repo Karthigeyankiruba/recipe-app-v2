@@ -21,9 +21,12 @@ import {
   Stack,
   useTheme,
 } from "@mui/material";
+import InputBase from "@mui/material/InputBase";
 import { createTheme } from "@mui/material/styles";
 import Profile from "../../assets/profile.jpeg";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import AutocompleteComponent from "../../views/layout/components/CustomSearchbar";
 
 const pages = ["Recipes", "Popular", "Healthy"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -34,6 +37,16 @@ function ResponsiveAppBar(props) {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [showSearchInput, setShowSearchInput] = useState(false);
+
+  const isAuthenticated = localStorage.getItem("token");
+  const isStaticTokenValid = isAuthenticated === "9876543210";
+
+  const navigate = useNavigate();
+
+  const handleSearchIconClick = () => {
+    setShowSearchInput(!showSearchInput);
+  };
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -41,7 +54,6 @@ function ResponsiveAppBar(props) {
 
   const initialTheme = useTheme();
   const [theme, setTheme] = useState(initialTheme);
-  console.log("theme", theme);
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -70,7 +82,7 @@ function ResponsiveAppBar(props) {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        UChef
+        U<span style={{ color: theme.palette.error.main }}>Chef</span>
       </Typography>
       <Divider />
       <List>
@@ -91,11 +103,14 @@ function ResponsiveAppBar(props) {
   return (
     <>
       <AppBar
-        position="static"
+        position="fixed"
+        elevation={0}
         sx={{
           backgroundColor:
-            theme.palette.mode === "dark" ? theme.palette.grey.dark : "white",
-          color: theme.palette.mode === "dark" ? "white" : "black",
+            theme.palette.mode === "dark"
+              ? "white"
+              : theme.palette.primary.main,
+          color: theme.palette.mode === "dark" ? "black" : "white",
         }}
       >
         <Container maxWidth={false}>
@@ -106,7 +121,7 @@ function ResponsiveAppBar(props) {
                 variant="h6"
                 noWrap
                 component="a"
-                href="#app-bar-with-responsive-menu"
+                href="/"
                 sx={{
                   mr: 2,
                   display: { xs: "none", md: "flex" },
@@ -175,21 +190,27 @@ function ResponsiveAppBar(props) {
             >
               UChef
             </Typography>
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {pages.map((page) => (
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{
-                    my: 2,
-                    color: theme.palette.mode === "dark" ? "white" : "black",
-                    display: "block",
-                  }}
-                >
-                  {page}
-                </Button>
-              ))}
-            </Box>
+            {isStaticTokenValid ? (
+              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                {pages.map((page) => (
+                  <Button
+                    key={page}
+                    onClick={handleCloseNavMenu}
+                    sx={{
+                      my: 2,
+                      color: theme.palette.mode === "dark" ? "black" : "white",
+                      display: "block",
+                    }}
+                  >
+                    {page}
+                  </Button>
+                ))}
+              </Box>
+            ) : (
+              <Box
+                sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}
+              ></Box>
+            )}
 
             <Box sx={{ flexGrow: 0 }}>
               <IconButton
@@ -197,13 +218,39 @@ function ResponsiveAppBar(props) {
                 edge="start"
                 color="inherit"
                 aria-label="open drawer"
-                sx={{ mr: 2 }}
+                sx={{
+                  ...(showSearchInput
+                    ? { marginRight: 0 }
+                    : { marginRight: 2 }),
+                }}
+                onClick={handleSearchIconClick}
               >
                 <Icon
                   icon="heroicons:magnifying-glass-16-solid"
                   fontSize={30}
                 />
               </IconButton>
+
+              {/* Conditional rendering for search input */}
+              {showSearchInput && (
+                <InputBase
+                  placeholder="Search..."
+                  sx={{
+                    width: "300px",
+                    transform: "scaleX(2)", // Corrected transform property
+                    transition: "all 0.3s cubic-bezier(0, 0.105, 0.035, 1.57)",
+                    border: `1px solid ${
+                      theme.palette.mode === "dark" ? "black" : "white"
+                    }`,
+                    px: 1.5,
+                    py: 0.2,
+                    borderRadius: 3,
+                    mr: 2,
+                    color: "white",
+                  }}
+                />
+              )}
+
               <IconButton
                 size="large"
                 edge="start"
@@ -213,24 +260,34 @@ function ResponsiveAppBar(props) {
                 onClick={handleModeToggler}
               >
                 <Icon
+                  color={
+                    theme.palette.mode === "dark"
+                      ? theme.palette.warning.main
+                      : "white"
+                  }
                   icon={
                     theme.palette.mode === "dark"
-                      ? "tdesign:mode-dark"
-                      : "ic:baseline-light-mode"
+                      ? "line-md:moon-filled-to-sunny-filled-loop-transition"
+                      : "line-md:moon-filled-loop"
                   }
                   fontSize={30}
                 />
               </IconButton>
-
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src={Profile} />
-                </IconButton>
-              </Tooltip>
-
-              {/* <Button variant="outlined" color="inherit">
-                Sign In
-              </Button> */}
+              {isStaticTokenValid ? (
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar alt="Remy Sharp" src={Profile} />
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                <Button
+                  variant="outlined"
+                  color="inherit"
+                  onClick={() => navigate("/auth/signin")}
+                >
+                  Sign In
+                </Button>
+              )}
 
               <Menu
                 sx={{ mt: "45px" }}
@@ -279,9 +336,6 @@ function ResponsiveAppBar(props) {
           {drawer}
         </Drawer>
       </nav>
-      <Box sx={{ p: 3, mt: 5, textAlign: "center" }}>
-        <Typography variant="h3">COMING SOON!</Typography>
-      </Box>
     </>
   );
 }
