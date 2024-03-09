@@ -25,3 +25,11 @@ export function getPopularRecipes(params) {
 export function getVegiterianRecipes(params) {
   return ApiService.get(recipesUrl("random", params));
 }
+
+export function getCuisines(params) {
+  return ApiService.get(recipesUrl("complexSearch", params));
+}
+
+export function getCourseMeals(params) {
+  return ApiService.get(recipesUrl("complexSearch", params));
+}

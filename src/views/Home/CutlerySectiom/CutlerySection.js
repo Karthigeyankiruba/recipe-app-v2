@@ -3,40 +3,48 @@ import React from "react";
 import CutleryImage from "../../../assets/cutlery.jpg";
 const CutlerySection = () => {
   return (
-    <Grid
-      container
-      sx={{
-        background: `url(${CutleryImage})`,
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-        height: "45vh",
-        position: "relative",
-      }}
-    >
-      <Card
-        raised={true}
+    <>
+      <Grid
+        container
         sx={{
-          width: "max-content",
-          height: "max-content",
-          position: "absolute",
-          top: "30%",
-          right: "20%",
-          borderRadius: 4,
+          background: `url(${CutleryImage})`,
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+          height: "45vh",
+          position: "relative",
         }}
       >
-        <CardContent>
-          <Typography variant="h5" fontWeight={500}>
-            50+ Breakfast Recipes That
-            <br /> Very Quick And Easy
-          </Typography>
-          <Typography variant="body2" color={"text.secondary"} mt={1}>
-            Find the perfect food ideas to start you day with
-            <br /> the quickest and easiest way
-          </Typography>
-        </CardContent>
-      </Card>
-    </Grid>
+        <Card
+          raised={true}
+          sx={{
+            width: "max-content",
+            height: "max-content",
+            position: "absolute",
+            top: "30%",
+            right: "20%",
+            borderRadius: 4,
+          }}
+        >
+          <CardContent>
+            <Typography variant="h5" fontWeight={500}>
+              50+ Breakfast Recipes That
+              <br /> Very Quick And Easy
+            </Typography>
+            <Typography variant="body2" color={"text.secondary"} mt={1}>
+              Find the perfect food ideas to start you day with
+              <br /> the quickest and easiest way
+            </Typography>
+          </CardContent>
+        </Card>
+      </Grid>
+
+      <iframe
+        width="100%"
+        height="600"
+        src="https://www.youtube.com/embed/81bn4p8H3Kg?autoplay=1&mute=1&controls=0"
+      ></iframe>
+    </>
   );
 };
 

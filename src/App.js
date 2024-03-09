@@ -1,4 +1,4 @@
-// import "./App.css";
+import "./App.css";
 import { useEffect, useState } from "react";
 import { getPopularRecipes } from "./service/api/rescipesApi";
 import SignUpForm from "./components/SignUpForm";
@@ -10,6 +10,8 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import PageLayout from "./views/layout/PageLayout";
 import AuthLayout from "./views/Auth/layout/AuthLayout";
+import RecipesPage from "./views/RecipesPage/RecipesPage";
+import NotFound from "./views/NotFound/NotFound";
 
 function App() {
   // const [data, setData] = useState(null);
@@ -30,8 +32,6 @@ function App() {
   // console.log("data: ", data);
   return (
     <div>
-      {/* <ResponsiveAppBar /> */}
-
       <BrowserRouter>
         <Routes>
           <Route path="/auth" element={<AuthLayout />}>
@@ -47,10 +47,13 @@ function App() {
           {/* Protected Routes */}
           <Route path="/" element={<Navigate to={"/home"} />} />
           <Route path="/" element={<ProtectedRoute />}>
-            {/* <Route element={<PageLayout />}> */}
-            <Route path="home" element={<Home />} />
-            {/* </Route> */}
+            <Route element={<PageLayout />}>
+              <Route path="home" element={<Home />} />
+              <Route path="recipes" element={<RecipesPage />} />
+            </Route>
           </Route>
+
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </div>

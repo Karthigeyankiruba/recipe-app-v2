@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Grid, Stack, Typography, useTheme } from "@mui/material";
-import HeroImage from "../../../assets/hero.jpg";
+import HeroImage from "../../../assets/4k.jpg";
 
 const Hero = () => {
   const theme = useTheme();
@@ -21,7 +21,6 @@ const Hero = () => {
         display="flex"
         alignItems="center"
         justifyContent="center"
-        height="100vh"
       >
         <Stack gap={5}>
           <Typography
