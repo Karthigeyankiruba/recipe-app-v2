@@ -145,3 +145,7 @@ body {
   left: 0px;
   top: 10px;
 }
+
+a {
+  text-decoration: none;
+}

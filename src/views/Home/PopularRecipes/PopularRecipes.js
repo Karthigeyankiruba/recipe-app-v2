@@ -83,12 +83,22 @@ const PopularRecipes = () => {
       {fetching ? (
         <CircularProgress />
       ) : (
-        <Grid container spacing={5} paddingY={10} px={10}>
+        <Grid
+          container
+          paddingY={10}
+          spacing={3}
+          px={10}
+          // sx={{
+          //   backgroundColor: "#afd3ca",
+          //   my: 5,
+          //   borderRadius: 5,
+          // }}
+        >
           <Grid item xs={12}>
-            <Typography variant="h5" fontWeight={500}>
-              Popular Recipes
+            <Typography variant="h4" fontWeight={500}>
+              Popular Recipes Of The Week
             </Typography>
-            <Typography variant="body2" color={"text.secondary"}>
+            <Typography variant="body1" color={"text.secondary"}>
               Our moest favorite recipes of this week
             </Typography>
           </Grid>

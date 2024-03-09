@@ -2,6 +2,7 @@ import { Container } from "@mui/material";
 import React from "react";
 import { Outlet } from "react-router-dom";
 import ResponsiveAppBar from "../../components/Navbar/Navbar";
+import Footer from "../../components/Footer/Footer";
 
 const PageLayout = () => {
   return (
@@ -11,6 +12,8 @@ const PageLayout = () => {
       <main>
         <Outlet />
       </main>
+
+      <Footer />
     </div>
   );
 };

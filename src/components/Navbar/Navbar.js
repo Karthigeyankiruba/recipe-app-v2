@@ -28,7 +28,11 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AutocompleteComponent from "../../views/layout/components/CustomSearchbar";
 
-const pages = ["Recipes", "Popular", "Healthy"];
+const pages = [
+  { name: "Recipes", link: "/recipes" },
+  { name: "Popular", link: "/popular" },
+  { name: "Healthy", link: "/healthy" },
+];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function ResponsiveAppBar(props) {
@@ -87,10 +91,12 @@ function ResponsiveAppBar(props) {
       <Divider />
       <List>
         {pages.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
-              <ListItemText primary={item} />
-            </ListItemButton>
+          <ListItem key={item.name}>
+            <Link to={item.link}>
+              <ListItemButton sx={{ textAlign: "center" }}>
+                <ListItemText primary={item.name} />
+              </ListItemButton>
+            </Link>
           </ListItem>
         ))}
       </List>
@@ -103,14 +109,11 @@ function ResponsiveAppBar(props) {
   return (
     <>
       <AppBar
-        position="fixed"
+        position="sticky"
         elevation={0}
         sx={{
-          backgroundColor:
-            theme.palette.mode === "dark"
-              ? "white"
-              : theme.palette.primary.main,
-          color: theme.palette.mode === "dark" ? "black" : "white",
+          backgroundColor: theme.palette.mode === "dark" ? "black" : "white",
+          color: theme.palette.mode === "dark" ? "white" : "black",
         }}
       >
         <Container maxWidth={false}>
@@ -165,9 +168,13 @@ function ResponsiveAppBar(props) {
                 }}
               >
                 {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
-                  </MenuItem>
+                  <Link to={page.link}>
+                    <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                      <Typography color="inherit" textAlign="center">
+                        {page.name}
+                      </Typography>
+                    </MenuItem>
+                  </Link>
                 ))}
               </Menu>
             </Box>
@@ -193,17 +200,20 @@ function ResponsiveAppBar(props) {
             {isStaticTokenValid ? (
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                 {pages.map((page) => (
-                  <Button
-                    key={page}
-                    onClick={handleCloseNavMenu}
-                    sx={{
-                      my: 2,
-                      color: theme.palette.mode === "dark" ? "black" : "white",
-                      display: "block",
-                    }}
-                  >
-                    {page}
-                  </Button>
+                  <Link to={page.link}>
+                    <Button
+                      key={page.name}
+                      onClick={handleCloseNavMenu}
+                      sx={{
+                        my: 2,
+                        color:
+                          theme.palette.mode === "dark" ? "white" : "black",
+                        display: "block",
+                      }}
+                    >
+                      {page.name}
+                    </Button>
+                  </Link>
                 ))}
               </Box>
             ) : (
@@ -235,18 +245,19 @@ function ResponsiveAppBar(props) {
               {showSearchInput && (
                 <InputBase
                   placeholder="Search..."
+                  color="inherit"
                   sx={{
                     width: "300px",
-                    transform: "scaleX(2)", // Corrected transform property
+                    // transform: "scaleX(2)", // Corrected transform property
                     transition: "all 0.3s cubic-bezier(0, 0.105, 0.035, 1.57)",
                     border: `1px solid ${
-                      theme.palette.mode === "dark" ? "black" : "white"
+                      theme.palette.mode === "dark" ? "white" : "white"
                     }`,
                     px: 1.5,
                     py: 0.2,
                     borderRadius: 3,
                     mr: 2,
-                    color: "white",
+                    color: "inherit",
                   }}
                 />
               )}
@@ -263,7 +274,7 @@ function ResponsiveAppBar(props) {
                   color={
                     theme.palette.mode === "dark"
                       ? theme.palette.warning.main
-                      : "white"
+                      : "black"
                   }
                   icon={
                     theme.palette.mode === "dark"

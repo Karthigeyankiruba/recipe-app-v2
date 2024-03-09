@@ -19,7 +19,6 @@ import {
 } from "@mui/material";
 import { Icon } from "@iconify/react";
 import { Link, useNavigate } from "react-router-dom";
-import LoginImage from "../../src/assets/loginImage.jpg";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
